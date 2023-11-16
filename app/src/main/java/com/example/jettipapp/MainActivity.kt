@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun TopHeaderCard() {
+fun TopHeaderCard(totalPerPerson : Double = 0.0) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,11 +45,12 @@ fun TopHeaderCard() {
             .clip(shape = RoundedCornerShape(15.dp)),
         color = Color(0xFFb392de)
     ) {
+        val value = "%.2f".format(totalPerPerson)
         Column (modifier = Modifier.padding(35.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
             Text(text = "Total Per Person", style = MaterialTheme.typography.titleMedium)
-            Text(text = "$135", style = MaterialTheme.typography.titleSmall,
+            Text(text = "$$totalPerPerson", style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.ExtraBold
             )
         }
