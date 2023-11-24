@@ -3,6 +3,7 @@ package com.example.jettipapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -64,13 +65,31 @@ fun MyApplication(content: @Composable () -> Unit) {
 
     }
 }
-
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun GreetingPreview() {
-    JetTipAppTheme {
-        MyApplication {
-            Text(text = "Hello")
-        }
+fun MainContent(){
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .padding(2.dp),
+    shape = RoundedCornerShape(15.dp),
+        border = BorderStroke(width = 1.dp, color = Color.Black)){
+         Column {
+             Text(text = "")
+             Text(text = "")
+             Text(text = "")
+         }
     }
-}
+
+    }
+
+
+
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    JetTipAppTheme {
+//        MyApplication {
+//            Text(text = "Hello")
+//        }
+//    }
+//}
