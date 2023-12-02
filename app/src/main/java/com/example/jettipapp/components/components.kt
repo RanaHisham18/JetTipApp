@@ -1,5 +1,6 @@
 package com.example.jettipapp.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -13,6 +14,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +32,8 @@ fun InputField(
 ) {
 OutlinedTextField(value = valueState.value, onValueChange = {valueState.value = it},
     label = {Text (text = labelId)},
+    modifier = Modifier.padding(10.dp),
     leadingIcon = { Icon(imageVector = Icons.Rounded.Money , contentDescription ="Money Icon" )}
   )
 }
+
