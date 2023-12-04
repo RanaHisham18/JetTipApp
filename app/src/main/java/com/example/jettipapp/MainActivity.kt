@@ -112,6 +112,7 @@ fun BillState(
     val sliderPositionState = remember {
         mutableStateOf(0f)
     }
+    val tipPercentage = (sliderPositionState.value * 100).toInt()
     val splitState = remember {
         mutableStateOf(1)
     }
@@ -197,7 +198,7 @@ fun BillState(
 
                     Text(text = "Tip", modifier = Modifier.align(Alignment.CenterVertically))
                     Spacer(modifier = Modifier.width(200.dp))
-                    Text(text = "$33.0", modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = "$tipPercentage%", modifier = Modifier.align(Alignment.CenterVertically))
                     Spacer(modifier = Modifier.height(14.dp))
                 }
 
