@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import  com.example.jettipapp.components.InputField
+import com.example.jettipapp.util.calculateTotalPerPerson
 import com.example.jettipapp.util.calculateTotalTip
 import com.example.jettipapp.widgets.RoundedIconButton
 
@@ -123,10 +124,13 @@ fun BillState(
     val tipAmountState = remember {
         mutableStateOf(0.0)
     }
+    val totalPerPersonState = remember {
+        mutableStateOf(0.0)
+    }
     val range = IntRange(start = 1, endInclusive = 100)
     val keyboardController = LocalSoftwareKeyboardController.current
     Column {
-        TopHeaderCard()
+        TopHeaderCard(totalPerPerson = totalPerPersonState.value)
 
 
 
@@ -178,6 +182,12 @@ fun BillState(
                                 splitState.value =
                                     if (splitState.value > 1) splitState.value - 1
                                     else 1
+
+
+
+                                totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(),
+                                    splitBy = splitState.value,
+                                    tipPercentage = tipPercentage)
                             })
 
                         Text(
@@ -192,6 +202,11 @@ fun BillState(
                             onClick = {
                                 if (splitState.value < range.last) {
                                     splitState.value += 1
+
+
+                                    totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(),
+                                        splitBy = splitState.value,
+                                        tipPercentage = tipPercentage)
                                 }
                             })
 
@@ -219,7 +234,12 @@ fun BillState(
                     sliderPositionState.value = newVal
                     //tochange the slider value and position
 
-                    tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(), tipPercentage = tipPercentage)
+                    tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(),
+                        tipPercentage = tipPercentage)
+
+                    totalPerPersonState.value = calculateTotalPerPerson(totalBill = totalBillState.value.toDouble(),
+                        splitBy = splitState.value,
+                        tipPercentage = tipPercentage)
                 },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
