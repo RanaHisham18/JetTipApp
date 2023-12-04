@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,9 +60,10 @@ fun TopHeaderCard(totalPerPerson: Double = 0.0) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(150.dp)
+            .padding(12.dp)
             .clip(shape = RoundedCornerShape(15.dp)),
-        color = Color(0xFFb392de)
+        color = Color(0xFFF09AFF)
     ) {
         val value = "%.2f".format(totalPerPerson)
         Column(
@@ -90,7 +92,6 @@ fun MyApplication(content: @Composable () -> Unit) {
 @Preview
 @Composable
 fun MainContent() {
-
     BillState()
 
 
@@ -109,33 +110,42 @@ fun BillState(
         totalBillState.value.trim().isNotEmpty()
     }
 
+    val sliderPositionState = remember {
+        mutableStateOf(0f)
+    }
+
     val keyboardController = LocalSoftwareKeyboardController.current
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(2.dp),
-        shape = RoundedCornerShape(15.dp),
-        border = BorderStroke(width = 1.dp, color = Color.Black)
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start
+    Column {
+        TopHeaderCard()
+
+
+
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp),
+            shape = RoundedCornerShape(15.dp),
+            border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
+            Column(
+                modifier = Modifier.padding(12.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
 
-            InputField(
-                valueState = totalBillState,
-                labelId = "Enter Bill",
-                enabled = true,
-                isSingleLine = true,
-                onAction = KeyboardActions {
-                    if (!validState) return@KeyboardActions
-                    onValChange(totalBillState.value.trim())
-                    keyboardController?.hide()
-                }
-            )
+                InputField(
+                    valueState = totalBillState,
+                    labelId = "Enter Bill",
+                    enabled = true,
+                    isSingleLine = true,
+                    onAction = KeyboardActions {
+                        if (!validState) return@KeyboardActions
+                        onValChange(totalBillState.value.trim())
+                        keyboardController?.hide()
+                    }
+                )
 
-            if (validState) {
+                // if (validState) {
                 Row(
                     modifier = Modifier.padding(4.dp),
                     horizontalArrangement = Arrangement.Start
@@ -155,19 +165,48 @@ fun BillState(
                             imageVector = Icons.Default.Remove,
                             onClick = { /*TODO*/ })
 
+                        Text(
+                            text = "2", modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 9.dp, end = 9.dp)
+                        )
 
                         RoundedIconButton(
 
                             imageVector = Icons.Default.Add,
                             onClick = { /*TODO*/ })
+
+
                     }
                 }
-            } else {
-                Box {
 
+
+                //tip row
+                Row(modifier = Modifier.padding(horizontal = 3.dp)) {
+
+                    Text(text = "Tip", modifier = Modifier.align(Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.width(200.dp))
+                    Text(text = "$33.0", modifier = Modifier.align(Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.height(14.dp))
                 }
+
+                Slider(value = sliderPositionState.value, onValueChange = { newVal ->
+                    sliderPositionState.value = newVal
+                    //tochange the slider value and position
+                },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    steps = 5,
+                    onValueChangeFinished = {
+
+                    })
+
+//            } else {
+//                Box {
+//
+//                }
             }
         }
     }
 }
+
 

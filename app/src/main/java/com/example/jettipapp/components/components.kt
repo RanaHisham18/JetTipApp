@@ -1,9 +1,12 @@
 package com.example.jettipapp.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.CurrencyExchange
+import androidx.compose.material.icons.rounded.Euro
 import androidx.compose.material.icons.rounded.Money
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,8 +35,8 @@ fun InputField(
 ) {
 OutlinedTextField(value = valueState.value, onValueChange = {valueState.value = it},
     label = {Text (text = labelId)},
-    modifier = Modifier.padding(10.dp),
-    leadingIcon = { Icon(imageVector = Icons.Rounded.Money , contentDescription ="Money Icon" )}
+    modifier = Modifier.padding(10.dp).fillMaxWidth(),
+    leadingIcon = { Icon(imageVector = Icons.Rounded.CurrencyExchange , contentDescription ="Money Icon" )}
   )
 }
 
