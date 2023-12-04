@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import  com.example.jettipapp.components.InputField
+import com.example.jettipapp.util.calculateTotalTip
 import com.example.jettipapp.widgets.RoundedIconButton
 
 class MainActivity : ComponentActivity() {
@@ -96,17 +97,14 @@ fun MainContent() {
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BillState(
     modifier: Modifier = Modifier,
     onValChange: (String) -> Unit = {}
 ) {
 
-    fun calculateTotalTip(totalBill:Double, tipPercentage: Int): Double {
-        return if(totalBill> 1 && totalBill.toString().isNotEmpty())
-            (totalBill * tipPercentage) / 100
-        else 0.0
-    }
+
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -208,11 +206,14 @@ fun BillState(
                     Text(text = "Tip", modifier = Modifier.align(Alignment.CenterVertically))
                     Spacer(modifier = Modifier.width(200.dp))
                     Text(
-                        text = "$tipPercentage%",
+                        text = "$ ${tipAmountState.value}",
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     Spacer(modifier = Modifier.height(14.dp))
                 }
+                Column {
+                    Text(text = "$tipPercentage %", modifier = Modifier.align(Alignment.CenterHorizontally))
+                
 
                 Slider(value = sliderPositionState.value, onValueChange = { newVal ->
                     sliderPositionState.value = newVal
@@ -224,7 +225,7 @@ fun BillState(
                     steps = 5,
                     onValueChangeFinished = {
 
-                    })
+                    }) }
 
 //            } else {
 //                Box {
