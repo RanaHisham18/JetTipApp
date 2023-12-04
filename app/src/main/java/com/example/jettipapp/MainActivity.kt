@@ -10,7 +10,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -113,7 +112,10 @@ fun BillState(
     val sliderPositionState = remember {
         mutableStateOf(0f)
     }
-
+    val splitState = remember {
+        mutableStateOf(1)
+    }
+    val range = IntRange(start = 1, endInclusive = 100)
     val keyboardController = LocalSoftwareKeyboardController.current
     Column {
         TopHeaderCard()
@@ -163,10 +165,15 @@ fun BillState(
                         RoundedIconButton(
 
                             imageVector = Icons.Default.Remove,
-                            onClick = { /*TODO*/ })
+                            onClick = {
+
+                                splitState.value =
+                                    if(splitState.value > 1) splitState.value - 1
+                                else 1
+                            })
 
                         Text(
-                            text = "2", modifier = Modifier
+                            text = "${splitState.value}", modifier = Modifier
                                 .align(Alignment.CenterVertically)
                                 .padding(start = 9.dp, end = 9.dp)
                         )
@@ -174,10 +181,14 @@ fun BillState(
                         RoundedIconButton(
 
                             imageVector = Icons.Default.Add,
-                            onClick = { /*TODO*/ })
+                            onClick = {
+                                if (splitState.value < range.last){
+                                    splitState.value += 1
+                                }
+                            })
 
 
-                    }
+                    };
                 }
 
 
