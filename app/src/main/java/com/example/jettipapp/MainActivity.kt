@@ -101,6 +101,12 @@ fun BillState(
     modifier: Modifier = Modifier,
     onValChange: (String) -> Unit = {}
 ) {
+
+    fun calculateTotalTip(totalBill:Double, tipPercentage: Int): Double {
+        return if(totalBill> 1 && totalBill.toString().isNotEmpty())
+            (totalBill * tipPercentage) / 100
+        else 0.0
+    }
     val totalBillState = remember {
         mutableStateOf("")
     }
@@ -115,6 +121,9 @@ fun BillState(
     val tipPercentage = (sliderPositionState.value * 100).toInt()
     val splitState = remember {
         mutableStateOf(1)
+    }
+    val tipAmountState = remember {
+        mutableStateOf(0.0)
     }
     val range = IntRange(start = 1, endInclusive = 100)
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -169,8 +178,8 @@ fun BillState(
                             onClick = {
 
                                 splitState.value =
-                                    if(splitState.value > 1) splitState.value - 1
-                                else 1
+                                    if (splitState.value > 1) splitState.value - 1
+                                    else 1
                             })
 
                         Text(
@@ -183,7 +192,7 @@ fun BillState(
 
                             imageVector = Icons.Default.Add,
                             onClick = {
-                                if (splitState.value < range.last){
+                                if (splitState.value < range.last) {
                                     splitState.value += 1
                                 }
                             })
@@ -198,13 +207,18 @@ fun BillState(
 
                     Text(text = "Tip", modifier = Modifier.align(Alignment.CenterVertically))
                     Spacer(modifier = Modifier.width(200.dp))
-                    Text(text = "$tipPercentage%", modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(
+                        text = "$tipPercentage%",
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
                     Spacer(modifier = Modifier.height(14.dp))
                 }
 
                 Slider(value = sliderPositionState.value, onValueChange = { newVal ->
                     sliderPositionState.value = newVal
                     //tochange the slider value and position
+
+                    tipAmountState.value = calculateTotalTip(totalBill = totalBillState.value.toDouble(), tipPercentage = tipPercentage)
                 },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
@@ -220,5 +234,8 @@ fun BillState(
         }
     }
 }
+
+
+
 
 
